@@ -9,7 +9,6 @@ namespace FSI.AccessAuthentication.Application.Mapper
         {
             Id = entity.Id,
             SystemId = entity.SystemId,
-            Username = entity.UserName,
             Password = entity.Password,
             IsAuthentication = entity.IsAuthentication,
             Expiration = entity.Expiration,
@@ -22,7 +21,6 @@ namespace FSI.AccessAuthentication.Application.Mapper
         {
             Id = dto.Id,
             SystemId = dto.SystemId,
-            Username = dto.UserName,
             Password = dto.Password,
             IsAuthentication = dto.IsAuthentication,
             Expiration = dto.Expiration,

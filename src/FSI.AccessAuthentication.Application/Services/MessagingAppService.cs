@@ -48,8 +48,7 @@ namespace FSI.AccessAuthentication.Application.Services
 
         public async Task<bool> DeleteAsync(long id)
         {
-            var entity = new Domain.Entities.MessagingEntity { Id = id };
-            return await _repository.DeleteAsync(entity);
+            return await _repository.DeleteAsync(id);
         }
 
         #endregion

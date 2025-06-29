@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "FSI.AccessAuthentication.Api\\FSI.AccessAuthentication.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "FSI.AccessAuthentication.Api"
+      },
+      {
+        "Path": "FSI.AccessAuthentication.Worker\\FSI.AccessAuthentication.Worker.csproj",
+        "Action": "Start",
+        "DebugTarget": "FSI.AccessAuthentication.Worker"
+      }
+    ]
+  }
+]

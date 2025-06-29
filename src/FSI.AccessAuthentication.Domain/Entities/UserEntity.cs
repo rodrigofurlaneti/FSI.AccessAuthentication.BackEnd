@@ -6,7 +6,7 @@
         public string Password { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
-        public int SystemId { get; set; }
-        public int ProfileId { get; set; }
+        public long SystemId { get; set; }
+        public long ProfileId { get; set; }
      }
 }

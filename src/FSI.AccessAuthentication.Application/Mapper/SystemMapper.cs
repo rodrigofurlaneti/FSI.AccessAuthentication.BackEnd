@@ -15,7 +15,7 @@ namespace FSI.AccessAuthentication.Application.Mapper
             Id = entity.Id, //BaseEntity
             Name = entity.Name, //SystemEntity
             CreatedAt = entity.CreatedAt, //BaseEntity
-            UpdatedAt = entity.UpdatedAt //BaseEntity
+            UpdatedAt = entity.UpdatedAt, //BaseEntity
             IsActive = entity.IsActive //BaseEntity
         };
 
@@ -24,7 +24,7 @@ namespace FSI.AccessAuthentication.Application.Mapper
             Id = dto.Id, //BaseDto
             Name = dto.Name, //SystemDto
             CreatedAt = dto.CreatedAt, //BaseDto
-            UpdatedAt = dto.UpdatedAt //BaseDto
+            UpdatedAt = dto.UpdatedAt, //BaseDto
             IsActive = dto.IsActive //BaseDto
         };
     }

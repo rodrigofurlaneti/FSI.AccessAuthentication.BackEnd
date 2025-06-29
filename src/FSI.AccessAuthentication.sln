@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSI.AccessAuthentication.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSI.AccessAuthentication.Application", "FSI.AccessAuthentication.Application\FSI.AccessAuthentication.Application.csproj", "{6952CA18-1964-4107-919B-36A19E3B772A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSI.AccessAuthentication.Worker", "FSI.AccessAuthentication.Worker\FSI.AccessAuthentication.Worker.csproj", "{1B3D0C43-037E-08FF-C772-402E4D3CE74E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6952CA18-1964-4107-919B-36A19E3B772A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6952CA18-1964-4107-919B-36A19E3B772A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6952CA18-1964-4107-919B-36A19E3B772A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3D0C43-037E-08FF-C772-402E4D3CE74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3D0C43-037E-08FF-C772-402E4D3CE74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3D0C43-037E-08FF-C772-402E4D3CE74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3D0C43-037E-08FF-C772-402E4D3CE74E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

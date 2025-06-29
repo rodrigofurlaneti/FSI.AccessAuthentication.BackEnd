@@ -13,8 +13,8 @@ namespace FSI.AccessAuthentication.Application.Dtos
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
         [JsonPropertyName("systemId")]
-        public string SystemId { get; set; }
+        public long SystemId { get; set; }
         [JsonPropertyName("profileId")]
-        public string ProfileId { get; set; }
+        public long ProfileId { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace FSI.AccessAuthentication.Application.Mapper
             SystemId = entity.SystemId, //UserEntity
             ProfileId = entity.ProfileId, //UserEntity
             CreatedAt = entity.CreatedAt, //BaseEntity
-            UpdatedAt = entity.UpdatedAt //BaseEntity
+            UpdatedAt = entity.UpdatedAt, //BaseEntity
             IsActive = entity.IsActive //BaseEntity
         };
 
@@ -29,7 +29,7 @@ namespace FSI.AccessAuthentication.Application.Mapper
             SystemId = dto.SystemId, //UserDto
             ProfileId = dto.ProfileId, //UserDto
             CreatedAt = dto.CreatedAt, //BaseDto
-            UpdatedAt = dto.UpdatedAt //BaseDto
+            UpdatedAt = dto.UpdatedAt, //BaseDto
             IsActive = dto.IsActive //BaseDto
         };
     }
