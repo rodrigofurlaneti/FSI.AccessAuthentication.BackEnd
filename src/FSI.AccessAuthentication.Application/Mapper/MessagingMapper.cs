@@ -1,0 +1,42 @@
+﻿using FSI.AccessAuthentication.Application.Dtos;
+using FSI.AccessAuthentication.Domain.Entities;
+
+namespace FSI.AccessAuthentication.Application.Mapper
+{
+    public static class MessagingMapper
+    {
+        public static MessagingEntity ToEntity(MessagingDto dto)
+        {
+            return new MessagingEntity
+            {
+                Id = dto.Id,
+                OperationMessage = dto.OperationMessage,
+                QueueName = dto.QueueName,
+                MessageRequest = dto.MessageRequest,
+                MessageResponse = dto.MessageResponse,
+                IsProcessed = dto.IsProcessed,
+                ErrorMessage = dto.ErrorMessage,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                IsActive = dto.IsActive
+            };
+        }
+
+        public static MessagingDto ToDto(MessagingEntity entity)
+        {
+            return new MessagingDto
+            {
+                Id = entity.Id,
+                OperationMessage = entity.OperationMessage,
+                QueueName = entity.QueueName,
+                MessageRequest = entity.MessageRequest,
+                MessageResponse = entity.MessageResponse,
+                IsProcessed = entity.IsProcessed,
+                ErrorMessage = entity.ErrorMessage,
+                CreatedAt = entity.CreatedAt,
+                UpdatedAt = DateTime.Now,
+                IsActive = entity.IsActive
+            };
+        }
+    }
+}
