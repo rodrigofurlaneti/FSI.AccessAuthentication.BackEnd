@@ -13,7 +13,7 @@ namespace FSI.AccessAuthentication.Infrastructure.DependencyInjection
         services.AddScoped<IDbContext, DapperDbContext>();
 
         // Repositórios
-        services.AddScoped<IAutenticationRepository, AutenticationRepository>();
+        services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<ISystemRepository, SystemRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

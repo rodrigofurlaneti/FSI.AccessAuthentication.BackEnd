@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using FSI.AccessAuthentication.Domain.Entities;
+using FSI.AccessAuthentication.Domain.Interfaces;
 using FSI.AccessAuthentication.Infrastructure.Interfaces;
+
 using System.Data;
 
 namespace FSI.AccessAuthentication.Infrastructure.Repositories
@@ -80,7 +82,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             );
         }
 
-        public async Task<bool> DeleteAsync(MessagingEntity entity)
+        public async Task<bool> DeleteAsync(long id)
         {
             using var connection = CreateConnection();
             return await connection.ExecuteScalarAsync<bool>(

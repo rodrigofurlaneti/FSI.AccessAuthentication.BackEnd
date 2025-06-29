@@ -9,6 +9,6 @@ namespace FSI.AccessAuthentication.Domain.Interfaces
 {
     public interface IAuthenticationRepository : IBaseRepository<AuthenticationEntity>
     {
-        Task<AuthenticationEntity> AuthenticationAsync(AuthenticationEntity authenticationEntity);
+        Task<AuthenticationEntity> GetByAuthenticationAsync(AuthenticationEntity authenticationEntity);
     }
 }

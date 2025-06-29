@@ -1,0 +1,6 @@
+@FSI.AccessAuthentication.Api_HostAddress = http://localhost:5027
+
+GET {{FSI.AccessAuthentication.Api_HostAddress}}
+Accept: application/json
+
+###

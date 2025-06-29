@@ -46,7 +46,6 @@ namespace FSI.AccessAuthentication.Application.Services
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null) return false;
-            entity.Deactivate();
             return await _repository.UpdateAsync(entity);
         }
     }

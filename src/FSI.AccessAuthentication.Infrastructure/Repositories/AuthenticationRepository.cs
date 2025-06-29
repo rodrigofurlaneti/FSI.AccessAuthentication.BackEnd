@@ -12,6 +12,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
         private const string PROCEDURE_NAME = "usp_Authentication";
         private const string ACTION_GETALL = "GetAll";
         private const string ACTION_GETBYID = "GetById";
+        private const string ACTION_GETBYAUTHETICATION = "GetByAuthentication";
         private const string ACTION_INSERT = "Insert";
         private const string ACTION_UPDATE = "Update";
         private const string ACTION_DELETE = "Delete";
@@ -81,12 +82,26 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             );
         }
 
-        public async Task<bool> DeleteAsync(AuthenticationEntity entity)
+        public async Task<bool> DeleteAsync(long id)
         {
             using var connection = CreateConnection();
             return await connection.ExecuteScalarAsync<bool>(
                 PROCEDURE_NAME,
-                new { Action = ACTION_DELETE, entity.Id },
+                new { Action = ACTION_DELETE, id },
+                commandType: CommandType.StoredProcedure
+            );
+        }
+
+        public async Task<AuthenticationEntity?> GetByAuthenticationAsync(AuthenticationEntity authenticationEntity)
+        {
+            using var connection = CreateConnection();
+            return await connection.QueryFirstOrDefaultAsync<AuthenticationEntity>(
+                PROCEDURE_NAME,
+                new { 
+                        Action = ACTION_GETBYAUTHENTICATION, 
+                        Username = authenticationEntity.Username,
+                        Password = authenticationEntity.Password    
+                    },
                 commandType: CommandType.StoredProcedure
             );
         }

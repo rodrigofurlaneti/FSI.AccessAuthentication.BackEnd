@@ -72,12 +72,12 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             );
         }
 
-        public async Task<bool> DeleteAsync(ProfileEntity entity)
+        public async Task<bool> DeleteAsync(long id)
         {
             using var connection = CreateConnection();
             return await connection.ExecuteScalarAsync<bool>(
                 PROCEDURE_NAME,
-                new { OperationMessage = ACTION_DELETE, entity.Id },
+                new { Action = ACTION_DELETE, entity.Id },
                 commandType: CommandType.StoredProcedure
             );
         }
