@@ -2,7 +2,7 @@
 
 namespace FSI.AccessAuthentication.Application.Interfaces
 {
-    internal interface IAuthenticationAppService : IBaseAppService<AuthenticationDto>
+    public interface IAuthenticationAppService : IBaseAppService<AuthenticationDto>
     {
     }
 }

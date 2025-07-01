@@ -81,7 +81,7 @@ namespace FSI.AccessAuthentication.Worker
                     switch (envelope.Action.ToLowerInvariant())
                     {
                         case "insert":
-                            createdId = await service.AddAsync(envelope.Payload);
+                            createdId = await service.InsertAsync(envelope.Payload);
                             break;
                         case "getall":
                             listAuthentication = await service.GetAllAsync();

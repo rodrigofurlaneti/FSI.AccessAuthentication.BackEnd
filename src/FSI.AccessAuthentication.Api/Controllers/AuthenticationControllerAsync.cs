@@ -3,17 +3,16 @@ using FSI.AccessAuthentication.Application.Dtos;
 using FSI.AccessAuthentication.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using static FSI.AccessAuthentication.Api.Controllers.Base.BaseAsyncController;
 
 namespace FSI.AccessAuthentication.Api.Controllers
 {
     [ApiController]
-    [Route("api/authetications/async")]
-    public class AutheticationControllerAsync : BaseAsyncController<AutheticationDto>
+    [Route("api/authentications/async")]
+    public class AuthenticationControllerAsync : BaseAsyncController<AuthenticationDto>
     {
-        private readonly IAutheticationAppService _service;
+        private readonly IAuthenticationAppService _service;
 
-        public AutheticationControllerAsync(IAutheticationAppService service, ILogger<AutheticationControllerAsync> logger,
+        public AuthenticationControllerAsync(IAuthenticationAppService service, ILogger<AuthenticationControllerAsync> logger,
             IMessageQueuePublisher publisher, IMessagingAppService messagingService) : base(logger, publisher, messagingService)
         {
             _service = service;
@@ -46,7 +45,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
 
                 if (result is null)
                 {
-                    _logger.LogWarning("Authetication with id {AutheticationId} not found", id);
+                    _logger.LogWarning("Authentication with id {AuthenticationId} not found", id);
                     return NotFound();
                 }
 
@@ -54,43 +53,43 @@ namespace FSI.AccessAuthentication.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving traffic with id {AutheticationId}", id);
+                _logger.LogError(ex, "Error retrieving traffic with id {AuthenticationId}", id);
                 return StatusCode(500, "Error processing request");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AutheticationDto dto)
+        public async Task<IActionResult> Create([FromBody] AuthenticationDto dto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    _logger.LogWarning("Invalid model state for traffic creation: {@AutheticationDto}", dto);
+                    _logger.LogWarning("Invalid model state for traffic creation: {@AuthenticationDto}", dto);
                     return BadRequest(ModelState);
                 }
 
-                await _service.AddAsync(dto);
+                await _service.InsertAsync(dto);
 
-                _logger.LogInformation("Authetication created with id {AutheticationId}", dto.Id);
+                _logger.LogInformation("Authentication created with id {AuthenticationId}", dto.Id);
 
                 return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating user: {@AutheticationDto}", dto);
+                _logger.LogError(ex, "Error creating user: {@AuthenticationDto}", dto);
                 return StatusCode(500, "Error processing request");
             }
         }
 
         [HttpPut("{id:long}")]
-        public async Task<IActionResult> Update(long id, [FromBody] AutheticationDto dto)
+        public async Task<IActionResult> Update(long id, [FromBody] AuthenticationDto dto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    _logger.LogWarning("Invalid model state for user update: {@AutheticationDto}", dto);
+                    _logger.LogWarning("Invalid model state for user update: {@AuthenticationDto}", dto);
                     return BadRequest(ModelState);
                 }
 
@@ -103,7 +102,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
                 var existingAuthetication = await _service.GetByIdAsync(id);
                 if (existingAuthetication is null)
                 {
-                    _logger.LogWarning("Authetication with id {AutheticationId} not found for update", id);
+                    _logger.LogWarning("Authetication with id {AuthenticationId} not found for update", id);
                     return NotFound();
                 }
 
@@ -115,7 +114,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating user with id {AutheticationId}", id);
+                _logger.LogError(ex, "Error updating user with id {AuthenticationId}", id);
                 return StatusCode(500, "Error processing request");
             }
         }
@@ -128,19 +127,19 @@ namespace FSI.AccessAuthentication.Api.Controllers
                 var existingAuthetication = await _service.GetByIdAsync(id);
                 if (existingAuthetication is null)
                 {
-                    _logger.LogWarning("Authetication with id {AutheticationId} not found for deletion", id);
+                    _logger.LogWarning("Authetication with id {AuthenticationId} not found for deletion", id);
                     return NotFound();
                 }
 
                 await _service.DeleteAsync(existingAuthetication.Id);
 
-                _logger.LogInformation("Authetication with id {AutheticationId} deleted successfully", id);
+                _logger.LogInformation("Authetication with id {AuthenticationId} deleted successfully", id);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting user with id {AutheticationId}", id);
+                _logger.LogError(ex, "Error deleting user with id {AuthenticationId}", id);
                 return StatusCode(500, "Error processing request");
             }
         }
@@ -152,17 +151,17 @@ namespace FSI.AccessAuthentication.Api.Controllers
         [HttpPost("event/getall")]
         public async Task<IActionResult> MessageGetAllAsync()
         {
-            return await SendMessageAsync("getall", new AutheticationDto(), "POST - MessageGetAll", "consumption-queue");
+            return await SendMessageAsync("getall", new AuthenticationDto(), "POST - MessageGetAll", "consumption-queue");
         }
 
         [HttpPost("event/getbyid/{id:long}")]
         public async Task<IActionResult> MessageGetByIdAsync(long id)
         {
-            return await SendMessageAsync("getbyid", new AutheticationDto { Id = id }, "POST - MessageGetById", "consumption-queue");
+            return await SendMessageAsync("getbyid", new AuthenticationDto { Id = id }, "POST - MessageGetById", "consumption-queue");
         }
 
         [HttpPost("event/create")]
-        public async Task<IActionResult> MessageCreateAsync([FromBody] AutheticationDto dto)
+        public async Task<IActionResult> MessageCreateAsync([FromBody] AuthenticationDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -171,7 +170,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
         }
 
         [HttpPut("event/update/{id:long}")]
-        public async Task<IActionResult> MessageUpdateAsync(long id, [FromBody] AutheticationDto dto)
+        public async Task<IActionResult> MessageUpdateAsync(long id, [FromBody] AuthenticationDto dto)
         {
             if (!ModelState.IsValid || id != dto.Id)
                 return BadRequest("Invalid payload or ID mismatch.");
@@ -190,8 +189,8 @@ namespace FSI.AccessAuthentication.Api.Controllers
             {
                 return action.ToLowerInvariant() switch
                 {
-                    "getall" => JsonSerializer.Deserialize<IEnumerable<AutheticationDto>>(messageResponse),
-                    "getbyid" => JsonSerializer.Deserialize<AutheticationDto>(messageResponse),
+                    "getall" => JsonSerializer.Deserialize<IEnumerable<AuthenticationDto>>(messageResponse),
+                    "getbyid" => JsonSerializer.Deserialize<AuthenticationDto>(messageResponse),
                     "create" or "update" or "delete" => messageResponse,
                     _ => null
                 };
@@ -205,7 +204,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (existing is null)
                 return NotFound();
 
-            return await SendMessageAsync("delete", new AutheticationDto { Id = id }, "DELETE - MessageDelete", "consumption-queue");
+            return await SendMessageAsync("delete", new AuthenticationDto { Id = id }, "DELETE - MessageDelete", "consumption-queue");
         }
 
         #endregion

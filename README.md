@@ -1,7 +1,7 @@
 ﻿
-# 📊 FSI.MealTracker.BackEnd
+# 📊 FSI.AccessAuthentication.BackEnd
 
-Sistema backend responsável pela gestão pessoal de consumo de alimentos e suas respectivas calorias, estruturado com base na arquitetura **Domain-Driven Design (DDD)**, utilizando boas práticas de organização, separação de responsabilidades e escalabilidade.
+Sistema backend responsável pela autenticação de acesso aos sistemas do grupo, estruturado com base na arquitetura **Domain-Driven Design (DDD)**, utilizando boas práticas de organização, separação de responsabilidades e escalabilidade.
 
 ---
 
@@ -10,7 +10,7 @@ Sistema backend responsável pela gestão pessoal de consumo de alimentos e suas
 A aplicação segue o padrão em camadas proposto pela arquitetura DDD:
 
 ```
-FSI.MealTracker.BackEnd
+FSI.AccessAuthentication.BackEnd
 ├── Api                # Camada de apresentação (Web API)
 ├── Application        # Camada de aplicação (DTOs, serviços e interfaces de aplicação)
 ├── Domain             # Camada de domínio (Entidades, interfaces e regras de negócio)
@@ -119,8 +119,8 @@ A API foi desenhada seguindo princípios de **microsserviços desacoplados**, of
 ## 🚀 Como executar
 
 ```bash
-git clone https://github.com/seu-usuario/FSI.MealTracker.BackEnd.git
-cd FSI.MealTracker.BackEnd
+git clone https://github.com/seu-usuario/FSI.AccessAuthentication.BackEnd.git
+cd FSI.AccessAuthentication.BackEnd
 docker-compose up -d
 ```
 
@@ -134,11 +134,11 @@ Acesse:
 
 | Projeto                            | Responsabilidade                                   |
 |-----------------------------------|----------------------------------------------------|
-| `FSI.MealTracker.Api`      | Web API, controllers, middlewares, configuração    |
-| `FSI.MealTracker.Domain`   | Entidades, interfaces de domínio, regras de negócio|
-| `FSI.MealTracker.Application` | Serviços de aplicação, DTOs, interfaces de App     |
-| `FSI.MealTracker.Infrastructure` | Persistência, repositórios, integração externa  |
-| `FSI.MealTracker.Worker`   | Processamento assíncrono via RabbitMQ              |
+| `FSI.AccessAuthentication.Api`      | Web API, controllers, middlewares, configuração    |
+| `FSI.AccessAuthentication.Domain`   | Entidades, interfaces de domínio, regras de negócio|
+| `FSI.AccessAuthentication.Application` | Serviços de aplicação, DTOs, interfaces de App     |
+| `FSI.AccessAuthentication.Infrastructure` | Persistência, repositórios, integração externa  |
+| `FSI.AccessAuthentication.Worker`   | Processamento assíncrono via RabbitMQ              |
 
 ---
 

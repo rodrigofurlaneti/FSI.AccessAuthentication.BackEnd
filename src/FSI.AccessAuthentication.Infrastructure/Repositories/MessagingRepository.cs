@@ -87,7 +87,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             using var connection = CreateConnection();
             return await connection.ExecuteScalarAsync<bool>(
                 PROCEDURE_NAME,
-                new { OperationMessage = ACTION_DELETE, entity.Id },
+                new { OperationMessage = ACTION_DELETE, id },
                 commandType: CommandType.StoredProcedure
             );
         }

@@ -1,13 +1,11 @@
-﻿using FSI.AccessAuthetication.Application.Dtos;
-using FSI.AccessAuthetication.Application.Interfaces;
-using FSI.AccessAuthetication.Application.Messaging;
+﻿using FSI.AccessAuthentication.Application.Dtos;
+using FSI.AccessAuthentication.Application.Interfaces;
+using FSI.AccessAuthentication.Application.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace FSI.AccessAuthentication.Api.Controllers.Base
 {
-    public class BaseAsyncController : Controller
-    {
         public abstract class BaseAsyncController<TDto> : ControllerBase where TDto : class
         {
             protected readonly ILogger _logger;
@@ -35,7 +33,7 @@ namespace FSI.AccessAuthentication.Api.Controllers.Base
 
                 var messageRequest = JsonSerializer.Serialize(envelope);
 
-                var messagingId = await _messagingAppService.AddAsync(new MessagingDto(
+                var messagingId = await _messagingAppService.InsertAsync(new MessagingDto(
                     action,
                     queueName,
                     messageRequest,
@@ -83,5 +81,4 @@ namespace FSI.AccessAuthentication.Api.Controllers.Base
                 }
             }
         }
-    }
 }

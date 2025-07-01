@@ -12,7 +12,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
         private const string PROCEDURE_NAME = "usp_Authentication";
         private const string ACTION_GETALL = "GetAll";
         private const string ACTION_GETBYID = "GetById";
-        private const string ACTION_GETBYAUTHETICATION = "GetByAuthentication";
+        private const string ACTION_GETBYAUTHENTICATION = "GetByAuthentication";
         private const string ACTION_INSERT = "Insert";
         private const string ACTION_UPDATE = "Update";
         private const string ACTION_DELETE = "Delete";
@@ -99,8 +99,8 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
                 PROCEDURE_NAME,
                 new { 
                         Action = ACTION_GETBYAUTHENTICATION, 
-                        Username = authenticationEntity.Username,
-                        Password = authenticationEntity.Password    
+                        authenticationEntity.Username,
+                        authenticationEntity.Password    
                     },
                 commandType: CommandType.StoredProcedure
             );

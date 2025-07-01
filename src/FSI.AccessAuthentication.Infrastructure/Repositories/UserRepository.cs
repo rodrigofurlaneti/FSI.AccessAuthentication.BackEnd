@@ -47,7 +47,6 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
                 new
                 {
                     Action = ACTION_INSERT,
-                    entity.Name,
                     entity.Username,
                     entity.Password,
                     entity.Email,
@@ -71,7 +70,6 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
                 {
                     Action = ACTION_UPDATE,
                     entity.Id,
-                    entity.Name,
                     entity.Username,
                     entity.Password,
                     entity.Email,

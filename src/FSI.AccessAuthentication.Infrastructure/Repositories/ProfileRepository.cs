@@ -62,7 +62,6 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
                 new
                 {
                     Action = ACTION_UPDATE,
-                    OperationMessage = entity.OperationMessage,
                     entity.Id,
                     entity.Name,
                     entity.UpdatedAt,
@@ -77,7 +76,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             using var connection = CreateConnection();
             return await connection.ExecuteScalarAsync<bool>(
                 PROCEDURE_NAME,
-                new { Action = ACTION_DELETE, entity.Id },
+                new { Action = ACTION_DELETE, id },
                 commandType: CommandType.StoredProcedure
             );
         }

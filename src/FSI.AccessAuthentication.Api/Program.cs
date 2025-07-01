@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FSI.AccessAuthentication.Api.Middlewares;
-using FSI.AccessAuthentication.Api.Middlewares;
-using FSI.AccessAuthentication.Application.DependencyInjection; // ✅ Novo local correto
-using FSI.AccessAuthentication.Infrastructure.DependencyInjection; // ✅ Se tiver um similar para Infrastructur
+using FSI.AccessAuthentication.Application.DependencyInjection;
+using FSI.AccessAuthentication.Infrastructure.DependencyInjection; 
+
 
 var builder = WebApplication.CreateBuilder(args);
 

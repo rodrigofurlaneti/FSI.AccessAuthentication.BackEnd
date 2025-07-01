@@ -1,8 +1,8 @@
-﻿using FSI.AccessAuthentication.Application.Dtos;
+﻿using FSI.AccessAuthentication.Api.Controllers.Base;
+using FSI.AccessAuthentication.Application.Dtos;
 using FSI.AccessAuthentication.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using static FSI.AccessAuthentication.Api.Controllers.Base.BaseAsyncController;
 
 namespace FSI.AccessAuthentication.Api.Controllers
 {
@@ -69,7 +69,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                await _service.AddAsync(dto);
+                await _service.InsertAsync(dto);
 
                 _logger.LogInformation("Profile created with id {ProfileId}", dto.Id);
 

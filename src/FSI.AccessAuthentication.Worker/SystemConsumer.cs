@@ -29,7 +29,7 @@ namespace FSI.AccessAuthentication.Worker
             var factory = new ConnectionFactory
             {
                 HostName = _config["RabbitMq:Host"] ?? "localhost",
-                SystemName = _config["RabbitMq:System"] ?? "guest",
+                UserName = _config["RabbitMq:User"] ?? "guest",
                 Password = _config["RabbitMq:Password"] ?? "guest"
             };
 
@@ -83,7 +83,7 @@ namespace FSI.AccessAuthentication.Worker
                     switch (envelope.Action.ToLowerInvariant())
                     {
                         case "insert":
-                            createdId = await service.AddAsync(envelope.Payload);
+                            createdId = await service.InsertAsync(envelope.Payload);
                             break;
                         case "getall":
                             listSystem = await service.GetAllAsync();

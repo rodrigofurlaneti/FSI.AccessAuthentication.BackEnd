@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FSI.AccessAuthentication.Application\FSI.AccessAuthentication.Application.csproj" />
     <ProjectReference Include="..\FSI.AccessAuthentication.Domain\FSI.AccessAuthentication.Domain.csproj" />
+    <ProjectReference Include="..\FSI.AccessAuthentication.Infrastructure\FSI.AccessAuthentication.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
