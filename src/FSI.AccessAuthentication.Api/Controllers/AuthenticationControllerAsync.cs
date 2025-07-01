@@ -151,13 +151,13 @@ namespace FSI.AccessAuthentication.Api.Controllers
         [HttpPost("event/getall")]
         public async Task<IActionResult> MessageGetAllAsync()
         {
-            return await SendMessageAsync("getall", new AuthenticationDto(), "POST - MessageGetAll", "consumption-queue");
+            return await SendMessageAsync("getall", new AuthenticationDto(), "POST - MessageGetAll", "authentication-queue");
         }
 
         [HttpPost("event/getbyid/{id:long}")]
         public async Task<IActionResult> MessageGetByIdAsync(long id)
         {
-            return await SendMessageAsync("getbyid", new AuthenticationDto { Id = id }, "POST - MessageGetById", "consumption-queue");
+            return await SendMessageAsync("getbyid", new AuthenticationDto { Id = id }, "POST - MessageGetById", "authentication-queue");
         }
 
         [HttpPost("event/create")]
@@ -166,7 +166,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return await SendMessageAsync("create", dto, "POST - MessageCreate", "consumption-queue");
+            return await SendMessageAsync("create", dto, "POST - MessageCreate", "authentication-queue");
         }
 
         [HttpPut("event/update/{id:long}")]
@@ -179,7 +179,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (existing is null)
                 return NotFound();
 
-            return await SendMessageAsync("update", dto, "PUT - MessageUpdate", "consumption-queue");
+            return await SendMessageAsync("update", dto, "PUT - MessageUpdate", "authentication-queue");
         }
 
         [HttpGet("event/result/{id:long}")]
@@ -204,12 +204,8 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (existing is null)
                 return NotFound();
 
-            return await SendMessageAsync("delete", new AuthenticationDto { Id = id }, "DELETE - MessageDelete", "consumption-queue");
+            return await SendMessageAsync("delete", new AuthenticationDto { Id = id }, "DELETE - MessageDelete", "authentication-queue");
         }
-
-        #endregion
-
-        #region Additional Methods  
 
         #endregion
     }

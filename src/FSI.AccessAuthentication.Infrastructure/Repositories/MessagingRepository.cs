@@ -51,6 +51,7 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
                     entity.MessageRequest,
                     entity.MessageResponse,
                     entity.ErrorMessage,
+                    entity.IsProcessed,
                     entity.CreatedAt,
                     entity.UpdatedAt,
                     entity.IsActive

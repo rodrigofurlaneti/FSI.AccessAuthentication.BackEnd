@@ -24,7 +24,7 @@ namespace FSI.AccessAuthentication.Worker
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            string queueName = "Authentication-queue";
+            string queueName = "authentication-queue";
 
             var factory = new ConnectionFactory
             {

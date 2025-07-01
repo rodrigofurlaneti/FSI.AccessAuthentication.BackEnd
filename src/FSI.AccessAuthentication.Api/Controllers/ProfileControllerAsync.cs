@@ -151,13 +151,13 @@ namespace FSI.AccessAuthentication.Api.Controllers
         [HttpPost("event/getall")]
         public async Task<IActionResult> MessageGetAllAsync()
         {
-            return await SendMessageAsync("getall", new ProfileDto(), "POST - MessageGetAll", "user-queue");
+            return await SendMessageAsync("getall", new ProfileDto(), "POST - MessageGetAll", "profile-queue");
         }
 
         [HttpPost("event/getbyid/{id:long}")]
         public async Task<IActionResult> MessageGetByIdAsync(long id)
         {
-            return await SendMessageAsync("getbyid", new ProfileDto { Id = id }, "POST - MessageGetById", "user-queue");
+            return await SendMessageAsync("getbyid", new ProfileDto { Id = id }, "POST - MessageGetById", "profile-queue");
         }
 
         [HttpPost("event/create")]
@@ -166,7 +166,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return await SendMessageAsync("create", dto, "POST - MessageCreate", "user-queue");
+            return await SendMessageAsync("create", dto, "POST - MessageCreate", "profile-queue");
         }
 
         [HttpPut("event/update/{id:long}")]
@@ -179,7 +179,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (existing is null)
                 return NotFound();
 
-            return await SendMessageAsync("update", dto, "PUT - MessageUpdate", "user-queue");
+            return await SendMessageAsync("update", dto, "PUT - MessageUpdate", "profile-queue");
         }
 
         [HttpGet("event/result/{id:long}")]
@@ -204,7 +204,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
             if (existing is null)
                 return NotFound();
 
-            return await SendMessageAsync("delete", new ProfileDto { Id = id }, "DELETE - MessageDelete", "user-queue");
+            return await SendMessageAsync("delete", new ProfileDto { Id = id }, "DELETE - MessageDelete", "profile-queue");
         }
 
         #endregion
