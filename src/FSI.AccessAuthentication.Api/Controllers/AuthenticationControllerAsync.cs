@@ -172,10 +172,26 @@ namespace FSI.AccessAuthentication.Api.Controllers
         [HttpPost("event/create")]
         public async Task<IActionResult> MessageCreateAsync([FromBody] AuthenticationDto dto)
         {
+            // Validação por atributos (se houver)
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return await SendMessageAsync("create", dto, "POST - MessageCreate", "authentication-queue");
+            var authenticationRequestDto = new AuthenticationRequestDto()
+            {
+                Password = dto.Password,
+                Username = dto.Username
+            };
+
+            // Validação de regra de negócio + banco
+            var validationDto = await _service.ValidationResultAccessAsync(authenticationRequestDto);
+
+            if (!validationDto.IsAuthentication)
+            {
+                ModelState.AddModelError(string.Empty, validationDto.ErrorMessage);
+                return BadRequest(ModelState);
+            }
+
+            return await SendMessageAsync("insert", validationDto, "POST - MessageCreate", "authentication-queue");
         }
 
         [HttpPut("event/update/{id:long}")]
@@ -200,7 +216,7 @@ namespace FSI.AccessAuthentication.Api.Controllers
                 {
                     "getall" => JsonSerializer.Deserialize<IEnumerable<AuthenticationDto>>(messageResponse),
                     "getbyid" => JsonSerializer.Deserialize<AuthenticationDto>(messageResponse),
-                    "create" or "update" or "delete" => messageResponse,
+                    "insert" or "update" or "delete" => messageResponse,
                     _ => null
                 };
             });
