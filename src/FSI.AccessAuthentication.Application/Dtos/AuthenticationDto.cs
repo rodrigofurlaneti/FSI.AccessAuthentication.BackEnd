@@ -14,5 +14,7 @@ namespace FSI.AccessAuthentication.Application.Dtos
         public bool IsAuthentication { get; set; }
         [JsonPropertyName("expiration")]
         public DateTime Expiration { get; set; }
+        [JsonPropertyName("errorMessage")]
+        public string ErrorMessage { get; set; }
     }
 }

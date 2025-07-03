@@ -92,18 +92,51 @@ namespace FSI.AccessAuthentication.Infrastructure.Repositories
             );
         }
 
-        public async Task<AuthenticationEntity?> GetByAuthenticationAsync(AuthenticationEntity authenticationEntity)
+        public async Task<AuthenticationEntity> GetByAuthenticationAsync(AuthenticationRequestEntity authenticationRequestEntity)
         {
             using var connection = CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<AuthenticationEntity>(
+
+            var user = await connection.QueryFirstOrDefaultAsync<dynamic>(
                 PROCEDURE_NAME,
-                new { 
-                        Action = ACTION_GETBYAUTHENTICATION, 
-                        authenticationEntity.Username,
-                        authenticationEntity.Password    
-                    },
+                new
+                {
+                    Action = ACTION_GETBYAUTHENTICATION,
+                    authenticationRequestEntity.Username,
+                    authenticationRequestEntity.Password
+                },
                 commandType: CommandType.StoredProcedure
             );
+
+            // ❌ Não encontrou o usuário → retorna autenticação inválida
+            bool isAuth = user?.IsAuthentication == true;
+
+            if (!isAuth)
+            {
+                return new AuthenticationEntity
+                {
+                    Username = authenticationRequestEntity.Username,
+                    Password = authenticationRequestEntity.Password,
+                    IsAuthentication = false,
+                    Expiration = DateTime.Now,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    ErrorMessage = "Invalid username or password",
+                    IsActive = false
+                };
+            }
+
+            return new AuthenticationEntity
+            {
+                SystemId = user.SystemId,
+                Username = user.Username,
+                Password = user.Password,
+                IsAuthentication = true,
+                Expiration = user.Expiration,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                ErrorMessage = string.Empty,
+                IsActive = true
+            };
         }
     }
 }

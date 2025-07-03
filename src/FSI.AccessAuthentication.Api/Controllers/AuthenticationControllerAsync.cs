@@ -59,21 +59,30 @@ namespace FSI.AccessAuthentication.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AuthenticationDto dto)
+        public async Task<IActionResult> Create([FromBody] AuthenticationRequestDto dto)
         {
             try
             {
+                // Validação por atributos (se houver)
                 if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                // Validação de regra de negócio + banco
+                var validation = await _service.ValidationResultAccessAsync(dto);
+
+                if (!validation.IsAuthentication)
                 {
-                    _logger.LogWarning("Invalid model state for traffic creation: {@AuthenticationDto}", dto);
+                    ModelState.AddModelError(string.Empty, validation.ErrorMessage);
                     return BadRequest(ModelState);
                 }
 
-                await _service.InsertAsync(dto);
+                // Prossegue com a inserção
+                var authenticationResponse = await _service.InsertAsync(validation);
 
-                _logger.LogInformation("Authentication created with id {AuthenticationId}", dto.Id);
+                validation.Id = authenticationResponse;
 
-                return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
+                _logger.LogInformation("Authentication created with id {AuthenticationId}", validation.Id);
+                return CreatedAtAction(nameof(GetById), new { id = validation.Id }, validation);
             }
             catch (Exception ex)
             {

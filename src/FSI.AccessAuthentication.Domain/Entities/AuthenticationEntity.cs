@@ -1,4 +1,6 @@
-﻿namespace FSI.AccessAuthentication.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace FSI.AccessAuthentication.Domain.Entities
 {
     public class AuthenticationEntity : BaseEntity
     {
@@ -7,5 +9,6 @@
         public string Password { get; set; } = string.Empty;
         public bool IsAuthentication { get; set; }
         public DateTime Expiration { get; set; }
+        public string ErrorMessage { get; set; } = string.Empty;
     }
 }
