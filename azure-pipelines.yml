@@ -1,0 +1,122 @@
+trigger:
+  branches:
+    include: [ main ]
+
+variables:
+  buildConfiguration: 'Release'
+  apiProject: 'FSI.AccessAuthentication.BackEnd/src/FSI.AccessAuthentication.Api/FSI.AccessAuthentication.Api.csproj'
+  workerProjectDir: 'FSI.AccessAuthentication.BackEnd/src/FSI.AccessAuthentication.Worker'
+  workerDockerfile: 'FSI.AccessAuthentication.BackEnd/src/FSI.AccessAuthentication.Worker/Dockerfile'
+  imageName: 'access-auth-worker'
+
+stages:
+# 1) Build & Publish API .NET
+- stage: Build
+  displayName: Build .NET
+  jobs:
+  - job: BuildApi
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+    - script: dotnet restore $(apiProject)
+      displayName: Restore
+    - script: dotnet build $(apiProject) -c $(buildConfiguration) --no-restore
+      displayName: Build
+    - script: dotnet publish $(apiProject) -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/api --no-build
+      displayName: Publish
+    - publish: $(Build.ArtifactStagingDirectory)/api
+      artifact: drop-api
+
+# 2) Build imagem do Worker e push no ACR
+- stage: DockerWorker
+  displayName: Build & Push Worker Image
+  dependsOn: Build
+  variables:
+    acrName: '<SEU_ACR_NAME>'   # ex: myregistry
+    acrLoginServer: '<SEU_ACR_NAME>.azurecr.io'
+    imageTag: '$(Build.BuildId)'
+  jobs:
+  - job: BuildPush
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Login ACR
+      inputs:
+        command: login
+        containerRegistry: '<SERVICE_CONNECTION_ACR>'  # Service connection para o ACR
+    - task: Docker@2
+      displayName: Build
+      inputs:
+        repository: $(imageName)
+        command: build
+        Dockerfile: $(workerDockerfile)
+        buildContext: 'FSI.AccessAuthentication.BackEnd/src'
+        tags: |
+          $(acrLoginServer)/$(imageName):$(imageTag)
+          $(acrLoginServer)/$(imageName):latest
+    - task: Docker@2
+      displayName: Push
+      inputs:
+        repository: $(acrLoginServer)/$(imageName)
+        command: push
+        tags: |
+          $(imageTag)
+          latest
+
+# 3) Deploy API para Azure App Service (Linux)
+- stage: DeployApi
+  displayName: Deploy API
+  dependsOn: DockerWorker
+  jobs:
+  - deployment: DeployApiJob
+    environment: 'prod'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop-api
+          - task: AzureWebApp@1
+            displayName: Deploy to App Service
+            inputs:
+              azureSubscription: '<SERVICE_CONNECTION_AZURE>'
+              appType: 'webAppLinux'
+              appName: '<NOME_DO_APP_SERVICE_API>'
+              package: '$(Pipeline.Workspace)/drop-api'
+              runtimeStack: 'DOTNETCORE|8.0'
+
+# 4) Deploy Worker para Azure Container Apps
+- stage: DeployWorker
+  displayName: Deploy Worker
+  dependsOn: DeployApi
+  variables:
+    resourceGroup: '<RG>'
+    containerAppName: '<NOME_CONTAINER_APP_WORKER>'
+    acrLoginServer: '<SEU_ACR_NAME>.azurecr.io'
+    imageTag: '$(Build.BuildId)'
+  jobs:
+  - job: DeployWorkerJob
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: Deploy Container App
+      inputs:
+        azureSubscription: '<SERVICE_CONNECTION_AZURE>'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az containerapp update \
+            --name $(containerAppName) \
+            --resource-group $(resourceGroup) \
+            --image $(acrLoginServer)/$(imageName):$(imageTag) \
+            --set-env-vars \
+              ConnectionStrings__DefaultConnection="$(ConnectionStrings__DefaultConnection)" \
+              RabbitMq__Host="$(RabbitMq__Host)" \
+              RabbitMq__User="$(RabbitMq__User)" \
+              RabbitMq__Password="$(RabbitMq__Password)"

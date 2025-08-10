@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: access-auth-api
+    env: docker
+    plan: free
+    rootDir: FSI.AccessAuthentication.BackEnd/src/FSI.AccessAuthentication.Api
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: RabbitMq__Host
+        sync: false
+      - key: RabbitMq__User
+        sync: false
+      - key: RabbitMq__Password
+        sync: false
+      # ou, se preferir uma única string do CloudAMQP:
+      # - key: RabbitMq__ConnectionString
+      #   sync: false
+
+  - type: worker
+    name: access-auth-worker
+    env: docker
+    plan: free
+    rootDir: FSI.AccessAuthentication.BackEnd/src/FSI.AccessAuthentication.Worker
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: RabbitMq__Host
+        sync: false
+      - key: RabbitMq__User
+        sync: false
+      - key: RabbitMq__Password
+        sync: false
+      # - key: RabbitMq__ConnectionString
+      #   sync: false
