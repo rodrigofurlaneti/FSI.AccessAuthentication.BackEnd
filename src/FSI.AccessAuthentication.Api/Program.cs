@@ -28,6 +28,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+app.MapGet("/health", () => Results.Ok("ok")); // <- health check simples
+
 var app = builder.Build();
 
 // ⛑️ Middleware global de tratamento de exceções
